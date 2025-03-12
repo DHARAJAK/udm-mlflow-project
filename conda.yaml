@@ -2,7 +2,7 @@ name: Loan_prediction
 channels:
   - defaults
 dependencies:
-  - python=3.10.0
+  - python=3.13.2
   - pip<=25.0
   - pip:
       - mlflow==2.20.3

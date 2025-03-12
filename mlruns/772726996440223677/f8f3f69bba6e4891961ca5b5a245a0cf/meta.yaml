@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/GenAI/Udemy_course/MLOps_Bootcamp/MLOps/mlflow_manage_ml_experiments/udm-mlflow-project/mlruns/772726996440223677/f8f3f69bba6e4891961ca5b5a245a0cf/artifacts
+end_time: 1741791054582
+entry_point_name: ''
+experiment_id: '772726996440223677'
+lifecycle_stage: active
+run_id: f8f3f69bba6e4891961ca5b5a245a0cf
+run_name: agreeable-newt-587
+run_uuid: f8f3f69bba6e4891961ca5b5a245a0cf
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1741791050586
+status: 3
+tags: []
+user_id: Appex

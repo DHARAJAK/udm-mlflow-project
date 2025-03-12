@@ -11,12 +11,18 @@ import mlflow
 import os
 
 
+# mlflow.set_tracking_uri("http://localhost:5001")
+
+
 # load the dataset
 dataset = pd.read_csv("train.csv")
 numerical_cols = dataset.select_dtypes(include=["int64", "float64"]).columns.tolist()
 categorical_cols = dataset.select_dtypes(include=["object"]).columns.tolist()
 categorical_cols.remove("Loan_Status")
 categorical_cols.remove("Loan_ID")
+
+# dataset[col] = dataset[col].fillna(dataset[col].median())
+
 
 ## Filling categorical columns with mode
 for col in categorical_cols:
@@ -50,18 +56,18 @@ dataset["Loan_Status"] = le.fit_transform(dataset["Loan_Status"])
 
 # Train test split
 X = dataset.drop(columns=["Loan_ID", "Loan_Status"])
-y = dataset["Loan_Status"]
+y = dataset.Loan_Status
 RANDOM_SEED = 34
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=RANDOM_SEED
+    X, y, test_size=0.3, random_state=RANDOM_SEED
 )
 
 # RandomForest
 rf = RandomForestClassifier(random_state=RANDOM_SEED)
 param_grid_forest = {
-    "n_estimators": [10, 50, 100, 200, 200, 400, 700],
-    "max_depth": [10, 20, 30],
+    "n_estimators": [200, 400],
+    "max_depth": [10, 20],
     "criterion": ["gini", "entropy"],
     "max_leaf_nodes": [50, 100],
 }
@@ -71,7 +77,7 @@ grid_forest = GridSearchCV(
     estimator=rf,
     param_grid=param_grid_forest,
     cv=5,
-    n_jobs=1,
+    n_jobs=-1,
     scoring="accuracy",
     verbose=0,
 )
@@ -82,7 +88,7 @@ model_forest = grid_forest.fit(X_train, y_train)
 # Logistic Regression
 lr = LogisticRegression(random_state=RANDOM_SEED)
 param_grid_log = {
-    "C": [100, 10, 1.0, 0.1, 0.01],
+    "C": [100, 10, 1.0],
     "penalty": ["l1", "l2"],
     "solver": ["liblinear"],
 }
@@ -91,7 +97,7 @@ grid_log = GridSearchCV(
     estimator=lr,
     param_grid=param_grid_log,
     cv=5,
-    n_jobs=1,
+    n_jobs=-1,
     scoring="accuracy",
     verbose=0,
 )
@@ -102,7 +108,7 @@ model_log = grid_log.fit(X_train, y_train)
 # Decision Tree
 dt = DecisionTreeClassifier(random_state=RANDOM_SEED)
 param_grid_dt = {
-    "max_depth": [3, 5, 7, 9, 11, 13],
+    "max_depth": [3, 5, 7],
     "criterion": ["gini", "entropy"],
 }
 
@@ -110,7 +116,7 @@ grid_dt = GridSearchCV(
     estimator=dt,
     param_grid=param_grid_dt,
     cv=5,
-    n_jobs=1,
+    n_jobs=-1,
     scoring="accuracy",
     verbose=0,
 )
@@ -151,11 +157,12 @@ def eval_metrics(actual, pred):
 
 def mlflow_logging(model, X, y, name):
     with mlflow.start_run() as run:
+        # mlflow.set_tracking_uri("http://localhost:5001")
         run_id = run.info.run_id
         mlflow.set_tag("run_id", run_id)
         pred = model.predict(X)
         # metrics
-        accuracy, f1_score, auc = eval_metrics(y, pred)
+        (accuracy, f1_score, auc) = eval_metrics(y, pred)
         # Logging best parameters from gridsearch
         mlflow.log_params(model.best_params_)
         # Logging metrics
@@ -170,6 +177,6 @@ def mlflow_logging(model, X, y, name):
         mlflow.end_run()
 
 
-mlflow_logging(model_tree, X_test, y_test, "Decision Tree")
-mlflow_logging(model_forest, X_test, y_test, "Random Forest")
-mlflow_logging(model_log, X_test, y_test, "Logistic Regression")
+mlflow_logging(model_tree, X_test, y_test, "DecisionTree")
+mlflow_logging(model_forest, X_test, y_test, "RandomForest")
+mlflow_logging(model_log, X_test, y_test, "LogisticRegression")

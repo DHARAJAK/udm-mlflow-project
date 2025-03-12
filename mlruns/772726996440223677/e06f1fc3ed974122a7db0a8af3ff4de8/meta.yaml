@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/GenAI/Udemy_course/MLOps_Bootcamp/MLOps/mlflow_manage_ml_experiments/udm-mlflow-project/mlruns/772726996440223677/e06f1fc3ed974122a7db0a8af3ff4de8/artifacts
+end_time: 1741791403403
+entry_point_name: ''
+experiment_id: '772726996440223677'
+lifecycle_stage: active
+run_id: e06f1fc3ed974122a7db0a8af3ff4de8
+run_name: rogue-wren-760
+run_uuid: e06f1fc3ed974122a7db0a8af3ff4de8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1741791399408
+status: 3
+tags: []
+user_id: Appex

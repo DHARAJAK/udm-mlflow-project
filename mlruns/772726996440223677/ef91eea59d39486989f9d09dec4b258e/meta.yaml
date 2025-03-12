@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/GenAI/Udemy_course/MLOps_Bootcamp/MLOps/mlflow_manage_ml_experiments/udm-mlflow-project/mlruns/772726996440223677/ef91eea59d39486989f9d09dec4b258e/artifacts
+end_time: 1741791050579
+entry_point_name: ''
+experiment_id: '772726996440223677'
+lifecycle_stage: active
+run_id: ef91eea59d39486989f9d09dec4b258e
+run_name: intrigued-hawk-40
+run_uuid: ef91eea59d39486989f9d09dec4b258e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1741791046390
+status: 3
+tags: []
+user_id: Appex
